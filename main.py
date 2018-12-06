@@ -207,7 +207,6 @@ def toggle_protection(entry):
         #return MainScreen()
 
 
-#if __name__ == '__main__':
 
 class TodoApp(App):
 
@@ -218,6 +217,7 @@ class TodoApp(App):
 
 todoApp = TodoApp()
 todoApp.run()
+#if __name__ == '__main__':
 
 
 
