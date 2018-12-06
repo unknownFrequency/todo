@@ -206,9 +206,10 @@ class MainPage(GridLayout):
     todo_text_input = ObjectProperty()
 
     def save_task(self):
-        value = str(self.todo_text_input.text)
-        ToDo.create(task=value,
-                    protected=False)
+        text = str(self.todo_text_input.text)
+        protected = bool(self.todo_protected_input.text)
+        ToDo.create(task=text,
+                    protected=protected)
 
 
 class TodoApp(App):

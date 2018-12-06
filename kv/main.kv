@@ -1,5 +1,6 @@
 <GridLayout>:
     todo_text_input: todo_text
+    todo_protected_input: protected
     id: main_page
     cols: 1
     rows: 3
@@ -20,6 +21,7 @@
             size: self.texture_size
 
         CheckBox:
+            id: protected
             width: 10
             text: "Protected"
             pos_hint: {'center_x':.1}
