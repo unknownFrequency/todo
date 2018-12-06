@@ -3,13 +3,16 @@
   you have flagged them as 'protected'."""
 import datetime
 import os
+from os import listdir 
 from collections import OrderedDict
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.textinput import TextInput
+from kivy.properties import ObjectProperty
 from peewee import *
 
 db = SqliteDatabase('to_do_list.db')
@@ -190,14 +193,28 @@ def toggle_protection(entry):
 #         return ToDo()
         #return MainScreen()
 
-class MainPage(GridLayout):
+kv_path = './kv/'
+for kv in listdir(kv_path):
+    Builder.load_file(kv_path+kv)
+
+
+class SaveButton(Button):
     pass
+
+
+class MainPage(GridLayout):
+    todo_text_input = ObjectProperty()
+
+    def save_task(self):
+        value = str(self.todo_text_input.text)
+        ToDo.create(task=value,
+                    protected=False)
 
 
 class TodoApp(App):
 
     def build(self):
-        self.root = Builder.load_file('Todo.kv')
+        self.title = "Todo or not todo - That is the question"
         return MainPage()
 
 
