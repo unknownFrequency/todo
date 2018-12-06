@@ -15,22 +15,6 @@ from peewee import *
 db = SqliteDatabase('to_do_list.db')
 
 
-#class MainScreen(GridLayout):
-    # Override the method __init__()
-    # To add widgets and to define their behavior
-    # def __init__(self, **kwargs):
-    #     # Call super in order to implement the functionality of the original class being overloaded
-    #     super(MainScreen, self).__init__(**kwargs)
-    #     self.cols = 2
-    #     self.add_widget(Label(text='What Todo'))
-    #     self.todo_text = TextInput(multiline=True)
-    #     self.add_widget(self.todo_text)
-    #
-    #     self.add_widget(Label(text='Protected'))
-    #     self.protected = CheckBox()
-    #     self.add_widget(self.protected)
-
-
 class ToDo(Model):
     """Model for creating to-do items. 'done' indicates that it's been completed,
     'protected' makes it immune to cleanup"""
@@ -206,13 +190,15 @@ def toggle_protection(entry):
 #         return ToDo()
         #return MainScreen()
 
+class MainPage(GridLayout):
+    pass
 
 
 class TodoApp(App):
 
     def build(self):
         self.root = Builder.load_file('Todo.kv')
-        return GridLayout()
+        return MainPage()
 
 
 todoApp = TodoApp()
