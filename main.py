@@ -1,7 +1,7 @@
 """To-do list where you can chronologically add your tasks, modify them and mark if they have been completed.
   A cleanup feature enables you to delete completed tasks which are more than a week old - unless
   you have flagged them as 'protected'."""
-from datetime import datetime, timedelta
+from datetime import datetime
 import time
 import logging
 import os
@@ -33,15 +33,14 @@ class ToDo(Model):
     done = BooleanField(default=False)
     protected = BooleanField(default=False)
     #deadline = DateTimeField(default=False)
-    deadline = TextField(default=False)
+    deadline = CharField(max_length=255)
 
     class Meta:
         database = db
 
-    def __init__(self, **kwargs):
-        super(TodoApp, self).__init__(**kwargs)
-        self.title = 'TODO or not TODO'
-        self.deadline = False
+#   def __init__(self, **kwargs):
+#       super(TodoApp, self).__init__(**kwargs)
+#       self.title = 'TODO or not TODO'
 
 def clear():
     """Clear the display"""
@@ -230,15 +229,12 @@ class MainPage(GridLayout):
         deadline_formatted = str(self.deadline.day) + '-' + str(self.deadline.month) + '-' + str(self.deadline.year)
 
         try:
-            print(task)
-            print(protected)
-            print(deadline_formatted)
             ToDo.create(task=task,
                         protected=protected,
                         deadline=deadline_formatted)
-        except Exception:
-            print("HVAD?!")
-            self.todo_text_input.text = "Error..."
+        except Exception as e:
+            print(e)
+            self.todo_text_input.text = str(e)
 
     def update_task(self):
         pass
@@ -248,7 +244,6 @@ class MainPage(GridLayout):
 
     def show_date_picker(self):
         try:
-            #self.deadline = MDDatePicker(self.save_date(), now.year, now.month, now.day).open()
             self.deadline = MDDatePicker(self.set_previous_date)
             self.deadline.open()
             logging.debug(self.deadline)
