@@ -30,8 +30,7 @@ class ToDo(Model):
     timestamp = DateTimeField(default=datetime.now())
     done = BooleanField(default=False)
     protected = BooleanField(default=False)
-    #deadline = DateTimeField(default=False)
-    deadline = CharField(max_length=255)
+    deadline = DateTimeField(default=datetime.now())
 
 
     class Meta:
@@ -223,13 +222,13 @@ class MainPage(GridLayout):
         initialize()
         task = str(self.todo_text_input.text)
         protected = bool(self.todo_protected_input.text)
-        #deadline = str(self.todo_deadline_input.text)
         deadline_formatted = str(self.deadline.day) + '-' + str(self.deadline.month) + '-' + str(self.deadline.year)
+        deadline = datetime.strptime(deadline_formatted, '%d-%m-%Y')
 
         try:
             ToDo.create(task=task,
                         protected=protected,
-                        deadline=deadline_formatted)
+                        deadline=deadline)
         except Exception as e:
             print(e)
             self.todo_text_input.text = str(e)
