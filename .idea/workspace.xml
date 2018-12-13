@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="491a8708-5633-4bef-a2e2-b1ddbf946b62" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kv/main.kv" beforeDir="false" afterPath="$PROJECT_DIR$/kv/main.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list.db" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list.db" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="231" column="32" selection-start-line="231" selection-start-column="32" selection-end-line="231" selection-end-column="32" />
+            <state relative-caret-position="236">
+              <caret line="224" column="8" selection-start-line="224" selection-start-column="8" selection-end-line="224" selection-end-column="8" />
               <folding>
                 <element signature="e#251#291#0" expanded="true" />
               </folding>
@@ -246,6 +245,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="94" y="39" width="2786" height="1761" extended-state="4" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.3459747" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -350,8 +350,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="231" column="32" selection-start-line="231" selection-start-column="32" selection-end-line="231" selection-end-column="32" />
+        <state relative-caret-position="236">
+          <caret line="224" column="8" selection-start-line="224" selection-start-column="8" selection-end-line="224" selection-end-column="8" />
           <folding>
             <element signature="e#251#291#0" expanded="true" />
           </folding>

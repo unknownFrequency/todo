@@ -26,8 +26,6 @@ db = SqliteDatabase('to_do_list.db')
 
 
 class ToDo(Model):
-    """Model for creating to-do items. 'done' indicates that it's been completed,
-    'protected' makes it immune to cleanup"""
     task = CharField(max_length=255)
     timestamp = DateTimeField(default=datetime.now())
     done = BooleanField(default=False)
@@ -35,12 +33,11 @@ class ToDo(Model):
     #deadline = DateTimeField(default=False)
     deadline = CharField(max_length=255)
 
+
     class Meta:
         database = db
 
-#   def __init__(self, **kwargs):
-#       super(TodoApp, self).__init__(**kwargs)
-#       self.title = 'TODO or not TODO'
+
 
 def clear():
     """Clear the display"""
@@ -223,6 +220,7 @@ class MainPage(GridLayout):
     todo_deadline_input = ObjectProperty()
 
     def save_task(self):
+        initialize()
         task = str(self.todo_text_input.text)
         protected = bool(self.todo_protected_input.text)
         #deadline = str(self.todo_deadline_input.text)
