@@ -1,7 +1,8 @@
 """To-do list where you can chronologically add your tasks, modify them and mark if they have been completed.
   A cleanup feature enables you to delete completed tasks which are more than a week old - unless
   you have flagged them as 'protected'."""
-import datetime
+from datetime import datetime, timedelta
+import time
 import os
 from os import listdir 
 from collections import OrderedDict
@@ -13,6 +14,11 @@ from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty
+from kivy.utils import platform
+from kivy.uix.popup import Popup
+from kivymd.date_picker import MDDatePicker
+from kivymd.theming import ThemeManager
+from kivymd.time_picker import MDTimePicker
 from peewee import *
 
 db = SqliteDatabase('to_do_list.db')
@@ -22,13 +28,22 @@ class ToDo(Model):
     """Model for creating to-do items. 'done' indicates that it's been completed,
     'protected' makes it immune to cleanup"""
     task = CharField(max_length=255)
-    timestamp = DateTimeField(default=datetime.datetime.now)
+    timestamp = DateTimeField(default=datetime.now())
     done = BooleanField(default=False)
     protected = BooleanField(default=False)
+    deadline = DateTimeField(default=datetime.now() + timedelta(days=1))
+    previous_date = DateTimeField(default=datetime.now() + timedelta(days=1))
 
     class Meta:
         database = db
 
+    def __init__(self, **kwargs):
+        super(TodoApp, self).__init__(**kwargs)
+        self.title = 'TODO or not TODO'
+        self.screens = {}
+        self.available_screens = screens.__all__
+        self.home_screen = None
+        self.log_viewer_screen = None
 
 def clear():
     """Clear the display"""
@@ -202,20 +217,52 @@ class SaveButton(Button):
     pass
 
 
+class CalendarButton(Button):
+    pass
+
+
 class MainPage(GridLayout):
     todo_text_input = ObjectProperty()
 
     def save_task(self):
-        text = str(self.todo_text_input.text)
+        task = str(self.todo_text_input.text)
         protected = bool(self.todo_protected_input.text)
-        ToDo.create(task=text,
-                    protected=protected)
+        deadline = datetime(self.todo_deadline_input.datetime)
+        try:
+            ToDo.create(task=task,
+                        protected=protected,
+                        deadline=deadline)
+        except Exception:
+            self.todo_text_input.text = "Error..."
 
+    def update_task(self):
+        pass
+
+    def set_previous_date(self, date_obj):
+        self.previous_date = date_obj
+        self.root.ids.date_picker_label.text = str(date_obj)
+
+    def get_time_picker_data(self, instance, time):
+        self.root.ids.time_picker_label.text = str(time)
+        self.previous_time = time
+
+    def show_date_picker(self):
+        now = datetime.now()
+        try:
+            MDDatePicker(self, now.year, now.month, now.day).open()
+        #    MDDatePicker(self,
+         #                2018, 12, 12).open()
+        except AttributeError:
+            MDDatePicker(self.set_previous_date).open()
+        else:
+            MDDatePicker(self.set_previous_date).open()
 
 class TodoApp(App):
+    theme_cls = ThemeManager()
 
     def build(self):
         self.title = "Todo or not todo - That is the question"
+        previous_date = ObjectProperty()
         return MainPage()
 
 

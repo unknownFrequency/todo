@@ -3,7 +3,7 @@
     todo_protected_input: protected
     id: main_page
     cols: 1
-    rows: 3
+    rows: 44
     spacing: 10
     padding: 10
 
@@ -25,6 +25,10 @@
             width: 10
             text: "Protected"
             pos_hint: {'center_x':.1}
+
+    CalendarButton:
+        id: deadline
+        on_release: root.show_date_picker()
 
     SaveButton:
         on_release: root.save_task()
