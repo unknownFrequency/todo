@@ -3,6 +3,7 @@
   you have flagged them as 'protected'."""
 from datetime import datetime, timedelta
 import time
+import logging
 import os
 from os import listdir 
 from collections import OrderedDict
@@ -18,7 +19,7 @@ from kivy.utils import platform
 from kivy.uix.popup import Popup
 from kivymd.date_picker import MDDatePicker
 from kivymd.theming import ThemeManager
-from kivymd.time_picker import MDTimePicker
+from kivymd.button import MDFloatingActionButton, MDFlatButton
 from peewee import *
 
 db = SqliteDatabase('to_do_list.db')
@@ -31,8 +32,8 @@ class ToDo(Model):
     timestamp = DateTimeField(default=datetime.now())
     done = BooleanField(default=False)
     protected = BooleanField(default=False)
-    deadline = DateTimeField(default=datetime.now() + timedelta(days=1))
-    previous_date = DateTimeField(default=datetime.now() + timedelta(days=1))
+    #deadline = DateTimeField(default=False)
+    deadline = TextField(default=False)
 
     class Meta:
         database = db
@@ -40,10 +41,7 @@ class ToDo(Model):
     def __init__(self, **kwargs):
         super(TodoApp, self).__init__(**kwargs)
         self.title = 'TODO or not TODO'
-        self.screens = {}
-        self.available_screens = screens.__all__
-        self.home_screen = None
-        self.log_viewer_screen = None
+        self.deadline = False
 
 def clear():
     """Clear the display"""
@@ -223,16 +221,23 @@ class CalendarButton(Button):
 
 class MainPage(GridLayout):
     todo_text_input = ObjectProperty()
+    todo_deadline_input = ObjectProperty()
 
     def save_task(self):
         task = str(self.todo_text_input.text)
         protected = bool(self.todo_protected_input.text)
-        deadline = datetime(self.todo_deadline_input.datetime)
+        #deadline = str(self.todo_deadline_input.text)
+        deadline_formatted = str(self.deadline.day) + '-' + str(self.deadline.month) + '-' + str(self.deadline.year)
+
         try:
+            print(task)
+            print(protected)
+            print(deadline_formatted)
             ToDo.create(task=task,
                         protected=protected,
-                        deadline=deadline)
+                        deadline=deadline_formatted)
         except Exception:
+            print("HVAD?!")
             self.todo_text_input.text = "Error..."
 
     def update_task(self):
@@ -240,29 +245,24 @@ class MainPage(GridLayout):
 
     def set_previous_date(self, date_obj):
         self.previous_date = date_obj
-        self.root.ids.date_picker_label.text = str(date_obj)
-
-    def get_time_picker_data(self, instance, time):
-        self.root.ids.time_picker_label.text = str(time)
-        self.previous_time = time
 
     def show_date_picker(self):
-        now = datetime.now()
         try:
-            MDDatePicker(self, now.year, now.month, now.day).open()
-        #    MDDatePicker(self,
-         #                2018, 12, 12).open()
+            #self.deadline = MDDatePicker(self.save_date(), now.year, now.month, now.day).open()
+            self.deadline = MDDatePicker(self.set_previous_date)
+            self.deadline.open()
+            logging.debug(self.deadline)
         except AttributeError:
-            MDDatePicker(self.set_previous_date).open()
+            pass
         else:
-            MDDatePicker(self.set_previous_date).open()
+            pass
+
 
 class TodoApp(App):
     theme_cls = ThemeManager()
 
     def build(self):
         self.title = "Todo or not todo - That is the question"
-        previous_date = ObjectProperty()
         return MainPage()
 
 
