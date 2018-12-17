@@ -1,20 +1,25 @@
-<GridLayout>:
+<MainPage>: # Root Widget name
     todo_text_input: todo_text
     todo_protected_input: protected
     todo_deadline_input: deadline
     id: main_page
-    cols: 2
+    cols: 1
     rows: 44
     spacing: 10
     padding: 10
+    orientation: "vertical"
 
-    TextInput:
-        id: todo_text
-        hint_text: "What todo..."
-        size_hint: (.2, None)
-        multiline: True
-        font_size: 32
-        size: (400,400)
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_x: .25
+
+        TextInput:
+            id: todo_text
+            hint_text: "What todo..."
+            size_hint: (.2, None)
+            multiline: True
+            font_size: 32
+            size: (400,400)
 
     BoxLayout:
         orientation: "horizontal"
@@ -30,9 +35,46 @@
             text: "Protected"
             pos_hint: {'center_x':.1}
 
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_x: .25
+
+        Slider:
+            id: priority_id
+            min: 1
+            max: 10
+            value: 0
+            step: 1
+
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_x: .25
+
+        Label:
+            text: str(priority_id.value)
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_x: .25
+
+        Label:
+            text: "On / Off"
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_x: .25
+
+        Switch:
+            id: priority_switch_id
+            on_active: root.priority_switch(self, self.active)
+
+
     CalendarButton:
         id: deadline
         on_release: root.show_date_picker()
 
     SaveButton:
         on_release: root.save_task()
+

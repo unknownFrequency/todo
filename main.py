@@ -9,7 +9,7 @@ from os import listdir
 from collections import OrderedDict
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
@@ -23,6 +23,7 @@ from kivymd.button import MDFloatingActionButton, MDFlatButton
 from peewee import *
 
 db = SqliteDatabase('to_do_list.db')
+cur = db.cursor()
 
 kv_path = './kv/'
 for kv in listdir(kv_path):
@@ -47,37 +48,10 @@ def initialize():
 
 def cleanup_entries(index, entries):
     """Cleanup: delete completed, non-protected entries older than a week"""
-    if input('Have you checked that you protected the important stuff? [yN]').lower().strip() == 'y':
-        now = datetime.datetime.now()
-        for entry in entries:
-            if now - entry.timestamp > datetime.timedelta(7, 0, 0) and entry.done and not entry.protected:
-                entry.delete_instance()
-
-
-def modify_task(entry):
-    """Modify task"""
-    new_task = input('> ')
-    entry.task = new_task
-    entry.save()
-
-
-def delete_entry(entry):
-    """Erase entry"""
-    if input('Are you sure [yN]? ').lower().strip() == 'y':
-        entry.delete_instance()
-
-
-def toggle_done(entry):
-    """Toggle 'DONE'"""
-    entry.done = not entry.done
-    entry.save()
-
-
-def toggle_protection(entry):
-    """Toggle 'protected'"""
-    entry.protected = not entry.protected
-    entry.save()
-
+    now = datetime.datetime.now()
+    for entry in entries:
+        if now - entry.timestamp > datetime.timedelta(7, 0, 0) and entry.done and not entry.protected:
+            entry.delete_instance()
 
 
 
@@ -89,22 +63,45 @@ class CalendarButton(Button):
     pass
 
 
-class MainPage(GridLayout):
+class MainPage(BoxLayout):
     # todo_text_input = ObjectProperty()
     # todo_deadline_input = ObjectProperty()
 
     def get_todos(self):
-        cur = db.cursor()
         cur.execute("SELECT * FROM todo WHERE done=0")
         todos = [row for row in cur.fetchall()]
         print(todos)
 
+    def get_protected_tasks(self):
+        cur.execute("SELECT * FROM todo WHERE protected=1")
+        todos = [row for row in cur.fetchall()]
+        print(todos)
+
+    def get_todays_tasks(self):
+        pass
+
+    def get_future_tasks(self, start_date, end_date):
+        # YYYY-MM-DD format!
+        cur.execute("SELECT * FROM todo WHERE timestamp BETWEEN ? AND ?", (start_date, end_date))
+
+    def get_done_tasks(self):
+        pass
+
+    def get_tasks_between_dates(self):
+        pass
+
+    def priority_switch(self, instance, value):
+        if value is True:
+            print("Priority on!")
+        else:
+            print("Priority off!")
+
     def save_task(self):
-        initialize()
+        #initialize()
         task = str(self.todo_text_input.text)
         protected = bool(self.todo_protected_input.text)
-        deadline_formatted = str(self.deadline.day) + '-' + str(self.deadline.month) + '-' + str(self.deadline.year)
-        deadline = datetime.strptime(deadline_formatted, '%d-%m-%Y')
+        deadline_formatted = str(self.deadline.year) + '-' + str(self.deadline.month) + '-' + str(self.deadline.day)
+        deadline = datetime.strptime(deadline_formatted, '%Y-%m-%d')
 
         try:
             ToDo.create(task=task,
