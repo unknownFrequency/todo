@@ -21,6 +21,7 @@ from kivymd.date_picker import MDDatePicker
 from kivymd.theming import ThemeManager
 from kivymd.button import MDFloatingActionButton, MDFlatButton
 from peewee import *
+from kivymd.selectioncontrols import MDCheckbox
 
 db = SqliteDatabase('to_do_list.db')
 cur = db.cursor()
@@ -63,9 +64,10 @@ class CalendarButton(Button):
     pass
 
 
-class MainPage(BoxLayout):
-    # todo_text_input = ObjectProperty()
-    # todo_deadline_input = ObjectProperty()
+class MainPageLayout(BoxLayout):
+    todo_text_input = ObjectProperty()
+    todo_deadline_input = ObjectProperty()
+    todo_protected_input = ObjectProperty()
 
     def get_todos(self):
         cur.execute("SELECT * FROM todo WHERE done=0")
@@ -90,6 +92,9 @@ class MainPage(BoxLayout):
     def get_tasks_between_dates(self):
         pass
 
+    def switch_protected(self, value):
+        self.protected = value
+
     def priority_switch(self, instance, value):
         if value is True:
             print("Priority on!")
@@ -99,7 +104,8 @@ class MainPage(BoxLayout):
     def save_task(self):
         #initialize()
         task = str(self.todo_text_input.text)
-        protected = bool(self.todo_protected_input.text)
+        protected = bool(self.protected)
+        print(protected)
         deadline_formatted = str(self.deadline.year) + '-' + str(self.deadline.month) + '-' + str(self.deadline.day)
         deadline = datetime.strptime(deadline_formatted, '%Y-%m-%d')
 
@@ -135,7 +141,7 @@ class TodoApp(App):
 
     def build(self):
         self.title = "Todo or not todo - That is the question"
-        return MainPage()
+        return MainPageLayout()
 
 
 todoApp = TodoApp()

@@ -1,40 +1,39 @@
-<MainPage>: # Root Widget name
+<MainPageLayout>: # Root Widget name
     todo_text_input: todo_text
-    todo_protected_input: protected
+    todo_protected_input: protected_id
     todo_deadline_input: deadline
+
     id: main_page
-    cols: 1
-    rows: 44
     spacing: 10
     padding: 10
     orientation: "vertical"
 
     BoxLayout:
         orientation: "horizontal"
-        size_hint_x: .25
+        size_hint: (1,1)
 
         TextInput:
             id: todo_text
             hint_text: "What todo..."
-            size_hint: (.2, None)
             multiline: True
             font_size: 32
-            size: (400,400)
+
 
     BoxLayout:
-        orientation: "horizontal"
-        Label:
-            text: "Protected"
-            size_hint_x: None
-            size_hint: None, 1
-            size: self.texture_size
+        orientation: "vertical"
 
-        CheckBox:
-            id: protected
-            width: 10
+        BoxLayout:
+            orientation: "horizontal"
             text: "Protected"
-            pos_hint: {'center_x':.1}
 
+            Label:
+                text: "Protected"
+                color: (0,1,0,0)
+                font_size: 32
+
+            Switch:
+                id: protected_id
+                on_active: root.switch_protected(self.active)
 
     BoxLayout:
         orientation: "horizontal"
