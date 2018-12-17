@@ -24,13 +24,16 @@ from peewee import *
 
 db = SqliteDatabase('to_do_list.db')
 
+kv_path = './kv/'
+for kv in listdir(kv_path):
+    Builder.load_file(kv_path+kv)
 
 class ToDo(Model):
     task = CharField(max_length=255)
-    timestamp = DateTimeField(default=datetime.now())
     done = BooleanField(default=False)
     protected = BooleanField(default=False)
     deadline = DateTimeField(default=datetime.now())
+    timestamp = DateTimeField(default=datetime.now())
 
     class Meta:
         database = db
@@ -76,9 +79,6 @@ def toggle_protection(entry):
     entry.save()
 
 
-kv_path = './kv/'
-for kv in listdir(kv_path):
-    Builder.load_file(kv_path+kv)
 
 
 class SaveButton(Button):
@@ -90,8 +90,14 @@ class CalendarButton(Button):
 
 
 class MainPage(GridLayout):
-    todo_text_input = ObjectProperty()
-    todo_deadline_input = ObjectProperty()
+    # todo_text_input = ObjectProperty()
+    # todo_deadline_input = ObjectProperty()
+
+    def get_todos(self):
+        cur = db.cursor()
+        cur.execute("SELECT * FROM todo WHERE done=0")
+        todos = [row for row in cur.fetchall()]
+        print(todos)
 
     def save_task(self):
         initialize()
@@ -103,7 +109,9 @@ class MainPage(GridLayout):
         try:
             ToDo.create(task=task,
                         protected=protected,
-                        deadline=deadline)
+                        done=False,
+                        deadline=deadline,
+                        timestamp=datetime.now())
         except Exception as e:
             print(e)
             self.todo_text_input.text = str(e)
