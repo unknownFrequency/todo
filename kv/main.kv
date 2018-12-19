@@ -4,8 +4,8 @@
     todo_deadline_input: deadline
 
     id: main_page
-    spacing: 10
-    padding: 10
+    spacing: 40
+    padding: 20
     orientation: "vertical"
 
     BoxLayout:
@@ -17,7 +17,9 @@
             font_size: 32
 
     BoxLayout:
-        size_hint: (1,4)
+        size_hint: (1,40)
+        spacing: 40
+        padding: 40
 
         TextInput:
             id: todo_text
@@ -27,17 +29,22 @@
 
     BoxLayout:
         orientation: "vertical"
+        padding: 40
 
         BoxLayout:
             orientation: "horizontal"
 
-        ProtectedButton:
-            id: protected_id
-            text: root.protected_button_text
-            background_color: root.protected_button_background_color
-            on_release: app.root.ids.protected_id.text = root.toggle_protected()
-            on_release: app.root.ids.protected_id.background_color = root.toggle_protected_button_background_color()
-            font_size: 32
+            CalendarButton:
+                id: deadline
+                on_release: root.show_date_picker()
+
+            ProtectedButton:
+                id: protected_id
+                text: root.protected_button_text
+                background_color: root.protected_button_background_color
+                on_release: app.root.ids.protected_id.text = root.toggle_protected()
+                on_release: app.root.ids.protected_id.background_color = root.toggle_protected_button_background_color()
+                font_size: 32
 
     BoxLayout:
         orientation: "horizontal"
@@ -73,10 +80,6 @@
             id: priority_switch_id
             on_active: root.priority_switch(self, self.active)
 
-
-    CalendarButton:
-        id: deadline
-        on_release: root.show_date_picker()
 
     SaveButton:
         on_release: root.save_task()
