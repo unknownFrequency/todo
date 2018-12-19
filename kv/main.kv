@@ -1,3 +1,39 @@
+#:import Toolbar kivymd.toolbar.Toolbar
+#:import ThemeManager kivymd.theming.ThemeManager
+#:import MDNavigationDrawer kivymd.navigationdrawer.MDNavigationDrawer
+#:import NavigationLayout kivymd.navigationdrawer.NavigationLayout
+#:import NavigationDrawerDivider kivymd.navigationdrawer.NavigationDrawerDivider
+#:import NavigationDrawerToolbar kivymd.navigationdrawer.NavigationDrawerToolbar
+#:import NavigationDrawerSubheader kivymd.navigationdrawer.NavigationDrawerSubheader
+#:import MDCheckbox kivymd.selectioncontrols.MDCheckbox
+#:import MDSwitch kivymd.selectioncontrols.MDSwitch
+#:import MDList kivymd.list.MDList
+#:import OneLineListItem kivymd.list.OneLineListItem
+#:import TwoLineListItem kivymd.list.TwoLineListItem
+#:import ThreeLineListItem kivymd.list.ThreeLineListItem
+#:import OneLineAvatarListItem kivymd.list.OneLineAvatarListItem
+#:import OneLineIconListItem kivymd.list.OneLineIconListItem
+#:import OneLineAvatarIconListItem kivymd.list.OneLineAvatarIconListItem
+#:import MDTextField kivymd.textfields.MDTextField
+#:import MDSpinner kivymd.spinner.MDSpinner
+#:import MDCard kivymd.card.MDCard
+#:import MDSeparator kivymd.card.MDSeparator
+#:import MDDropdownMenu kivymd.menu.MDDropdownMenu
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import colors kivymd.color_definitions.colors
+#:import SmartTile kivymd.grid.SmartTile
+#:import MDSlider kivymd.slider.MDSlider
+#:import MDTabbedPanel kivymd.tabs.MDTabbedPanel
+#:import MDTab kivymd.tabs.MDTab
+#:import MDProgressBar kivymd.progressbar.MDProgressBar
+#:import MDAccordion kivymd.accordion.MDAccordion
+#:import MDAccordionItem kivymd.accordion.MDAccordionItem
+#:import MDAccordionSubItem kivymd.accordion.MDAccordionSubItem
+#:import MDThemePicker kivymd.theme_picker.MDThemePicker
+#:import MDBottomNavigation kivymd.tabs.MDBottomNavigation
+#:import MDBottomNavigationItem kivymd.tabs.MDBottomNavigationItem
+
+
 <MainPageLayout>: # Root Widget name
     todo_text_input: todo_text
     todo_protected_input: protected_id
@@ -7,6 +43,10 @@
     spacing: 40
     padding: 20
     orientation: "vertical"
+
+    BoxLayout:
+        SaveButton:
+            on_release: root.save_task()
 
     BoxLayout:
         size_hint: (1,4)
@@ -80,7 +120,40 @@
             id: priority_switch_id
             on_active: root.priority_switch(self, self.active)
 
+    BoxLayout:
+        spacing: dp(40)
+        orientation: 'vertical'
+        size_hint_x: None
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        BoxLayout:
+            orientation: 'vertical'
+            # size_hint: (None, None)
+            MDRaisedButton:
+                text: "Open time picker"
+                size_hint: None, None
+                size: 3 * dp(48), dp(48)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                opposite_colors: True
+                on_release: root.show_time_picker()
+            MDLabel:
+                id: time_picker_label
+                theme_text_color: 'Primary'
+                size_hint: None, None
+                size: dp(48)*3, dp(48)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            BoxLayout:
+                size: dp(48)*3, dp(48)
+                size_hint: (None, None)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                MDLabel:
+                    theme_text_color: 'Primary'
+                    text: "Start on previous time"
+                    size_hint: None, None
+                    size: dp(130), dp(48)
+                MDCheckbox:
+                    id: time_picker_use_previous_time
+                    size_hint: None, None
+                    size: dp(48), dp(48)
 
-    SaveButton:
-        on_release: root.save_task()
+
 

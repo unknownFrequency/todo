@@ -3,25 +3,30 @@
   you have flagged them as 'protected'."""
 from datetime import datetime
 import time
+from os import listdir
 import logging
-import os
-from os import listdir 
-from collections import OrderedDict
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
 from kivy.uix.button import Button
-from kivy.uix.checkbox import CheckBox
-from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty
-from kivy.utils import platform
-from kivy.uix.popup import Popup
-from kivymd.date_picker import MDDatePicker
 from kivymd.theming import ThemeManager
-from kivymd.button import MDFloatingActionButton, MDFlatButton
+from kivymd.date_picker import MDDatePicker
+from kivymd.time_picker import MDTimePicker
 from peewee import *
+from kivymd.bottomsheet import MDListBottomSheet, MDGridBottomSheet
+from kivymd.button import MDIconButton
+from kivymd.date_picker import MDDatePicker
+from kivymd.dialog import MDDialog
+from kivymd.label import MDLabel
+from kivymd.list import ILeftBody, ILeftBodyTouch, IRightBodyTouch, BaseListItem
+from kivymd.material_resources import DEVICE_TYPE
+from kivymd.navigationdrawer import MDNavigationDrawer, NavigationDrawerHeaderBase
 from kivymd.selectioncontrols import MDCheckbox
+from kivymd.snackbar import Snackbar
+from kivymd.theming import ThemeManager
+from kivymd.time_picker import MDTimePicker
+
 
 db = SqliteDatabase('to_do_list.db')
 cur = db.cursor()
@@ -35,6 +40,7 @@ class ToDo(Model):
     done = BooleanField(default=False)
     protected = BooleanField(default=False)
     deadline = DateTimeField(default=datetime.now())
+    time_deadline = DateTimeField(default=datetime.now())
     timestamp = DateTimeField(default=datetime.now())
 
     class Meta:
@@ -43,7 +49,6 @@ class ToDo(Model):
 
 def initialize():
     """Connect to database, build tables if they don't exist"""
-    db.connect()
     db.create_tables([ToDo], safe=True)
 
 
@@ -67,12 +72,22 @@ class ProtectedButton(Button):
     pass
 
 
+class TimeButton(Button):
+    pass
+
+
 class MainPageLayout(BoxLayout):
     todo_text_input = ObjectProperty()
     todo_deadline_input = ObjectProperty()
     todo_protected_input = ObjectProperty()
+    previous_date = ObjectProperty()
+    protected = False
     protected_button_text = "Not Protected"
     protected_button_background_color = (1, 0, 0, .5)
+    previous_time = False
+    time_deadline = datetime.now()
+    time_text = "TIDEN"
+    print(time_deadline.time)
 
     def get_todos(self):
         cur.execute("SELECT * FROM todo WHERE done=0")
@@ -113,7 +128,6 @@ class MainPageLayout(BoxLayout):
             self.protected_button_background_color = (0, 1, 0, .5)
         else:
             self.protected_button_background_color = (1, 0, 0, .5)
-        print(self.protected_button_background_color)
         return self.protected_button_background_color
 
     def priority_switch(self, instance, value):
@@ -125,7 +139,6 @@ class MainPageLayout(BoxLayout):
     def save_task(self):
         task = str(self.todo_text_input.text)
         protected = bool(self.protected)
-        print(protected)
         deadline_formatted = str(self.deadline.year) + '-' + str(self.deadline.month) + '-' + str(self.deadline.day)
         deadline = datetime.strptime(deadline_formatted, '%Y-%m-%d')
 
@@ -134,6 +147,7 @@ class MainPageLayout(BoxLayout):
                         protected=protected,
                         done=False,
                         deadline=deadline,
+                        time_deadline=self.time_deadline,
                         timestamp=datetime.now())
         except Exception as e:
             print(e)
@@ -149,15 +163,30 @@ class MainPageLayout(BoxLayout):
         try:
             self.deadline = MDDatePicker(self.set_previous_date)
             self.deadline.open()
-            logging.debug(self.deadline)
         except AttributeError:
             pass
         else:
             pass
 
+    def get_time_picker_data(self, instance, time_selected):
+        self.time_text = str(time_selected)
+        self.previous_time = time_selected
+        self.time_deadline = time_selected
+
+    def show_time_picker(self):
+        self.time_deadline = MDTimePicker()
+        self.time_deadline.bind(time=self.get_time_picker_data)
+        if self.previous_time:
+            try:
+                self.time_deadline.set_time(self.previous_time)
+            except AttributeError:
+                pass
+        self.time_deadline.open()
+
 
 class TodoApp(App):
     theme_cls = ThemeManager()
+    initialize()
 
     def build(self):
         self.title = "Todo or not todo - That is the question"
