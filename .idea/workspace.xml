@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main.py" line="88" mnemonic="0" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="491a8708-5633-4bef-a2e2-b1ddbf946b62" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kv/buttons.kv" beforeDir="false" afterPath="$PROJECT_DIR$/kv/buttons.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kv/main.kv" beforeDir="false" afterPath="$PROJECT_DIR$/kv/main.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list.db" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list.db" afterDir="false" />
@@ -21,14 +16,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.46390107">
+    <splitter split-orientation="horizontal" split-proportion="0.39597315">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="600">
-                  <caret line="174" column="50" selection-start-line="174" selection-start-column="50" selection-end-line="174" selection-end-column="50" />
+                <state relative-caret-position="660">
+                  <caret line="182" selection-start-line="182" selection-end-line="182" />
                   <folding>
                     <element signature="e#251#280#0" expanded="true" />
                   </folding>
@@ -39,8 +34,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file:///usr/lib/python3.7/site-packages/kivymd/time_picker.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="197">
-                  <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
+                <state relative-caret-position="741">
+                  <caret line="72" column="28" lean-forward="true" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
                 </state>
               </provider>
             </entry>
@@ -70,8 +65,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/kv/main.kv">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="600">
-                  <caret line="136" column="38" selection-start-line="136" selection-start-column="38" selection-end-line="136" selection-end-column="38" />
+                <state relative-caret-position="677">
+                  <caret line="143" selection-start-line="143" selection-end-line="143" />
                 </state>
               </provider>
             </entry>
@@ -293,7 +288,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="328" y="39" width="2552" height="1761" extended-state="4" />
+    <frame x="600" y="39" width="2280" height="1761" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.17478813" />
@@ -402,22 +397,22 @@
     </entry>
     <entry file="file:///usr/lib/python3.7/site-packages/kivymd/time_picker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
+        <state relative-caret-position="741">
+          <caret line="72" column="28" lean-forward="true" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/kv/main.kv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="136" column="38" selection-start-line="136" selection-start-column="38" selection-end-line="136" selection-end-column="38" />
+        <state relative-caret-position="677">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="174" column="50" selection-start-line="174" selection-start-column="50" selection-end-line="174" selection-end-column="50" />
+        <state relative-caret-position="660">
+          <caret line="182" selection-start-line="182" selection-end-line="182" />
           <folding>
             <element signature="e#251#280#0" expanded="true" />
           </folding>

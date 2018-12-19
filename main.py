@@ -86,8 +86,6 @@ class MainPageLayout(BoxLayout):
     protected_button_background_color = (1, 0, 0, .5)
     previous_time = False
     time_deadline = datetime.now()
-    time_text = "TIDEN"
-    print(time_deadline.time)
 
     def get_todos(self):
         cur.execute("SELECT * FROM todo WHERE done=0")
@@ -169,8 +167,8 @@ class MainPageLayout(BoxLayout):
             pass
 
     def get_time_picker_data(self, instance, time_selected):
-        self.time_text = str(time_selected)
         self.previous_time = time_selected
+        self.ids.time_picker_label.text = str(time_selected)
         self.time_deadline = time_selected
 
     def show_time_picker(self):
