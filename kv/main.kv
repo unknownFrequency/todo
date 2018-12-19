@@ -9,8 +9,15 @@
     orientation: "vertical"
 
     BoxLayout:
-        orientation: "horizontal"
-        size_hint: (1,1)
+        size_hint: (1,4)
+
+        Label:
+            text: "TODO or not TODO..."
+            color: (0,0,0,0)
+            font_size: 32
+
+    BoxLayout:
+        size_hint: (1,4)
 
         TextInput:
             id: todo_text
@@ -18,22 +25,19 @@
             multiline: True
             font_size: 32
 
-
     BoxLayout:
         orientation: "vertical"
 
         BoxLayout:
             orientation: "horizontal"
-            text: "Protected"
 
-            Label:
-                text: "Protected"
-                color: (0,1,0,0)
-                font_size: 32
-
-            Switch:
-                id: protected_id
-                on_active: root.switch_protected(self.active)
+        ProtectedButton:
+            id: protected_id
+            text: root.protected_button_text
+            background_color: root.protected_button_background_color
+            on_release: app.root.ids.protected_id.text = root.toggle_protected()
+            on_release: app.root.ids.protected_id.background_color = root.toggle_protected_button_background_color()
+            font_size: 32
 
     BoxLayout:
         orientation: "horizontal"

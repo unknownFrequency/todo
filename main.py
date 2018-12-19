@@ -55,7 +55,6 @@ def cleanup_entries(index, entries):
             entry.delete_instance()
 
 
-
 class SaveButton(Button):
     pass
 
@@ -64,10 +63,16 @@ class CalendarButton(Button):
     pass
 
 
+class ProtectedButton(Button):
+    pass
+
+
 class MainPageLayout(BoxLayout):
     todo_text_input = ObjectProperty()
     todo_deadline_input = ObjectProperty()
     todo_protected_input = ObjectProperty()
+    protected_button_text = "Not Protected"
+    protected_button_background_color = (1, 0, 0, .5)
 
     def get_todos(self):
         cur.execute("SELECT * FROM todo WHERE done=0")
@@ -92,8 +97,24 @@ class MainPageLayout(BoxLayout):
     def get_tasks_between_dates(self):
         pass
 
-    def switch_protected(self, value):
-        self.protected = value
+    def toggle_protected(self):
+        if self.protected_button_text == "Not Protected":
+            self.protected_button_text = "Protected"
+            self.protected = True
+        else:
+            self.protected_button_text = "Not Protected"
+            self.protected = False
+
+        return self.protected_button_text
+
+    def toggle_protected_button_background_color(self):
+        # TODO: Refactor to be dynamic
+        if self.protected_button_background_color == (1, 0, 0, .5):
+            self.protected_button_background_color = (0, 1, 0, .5)
+        else:
+            self.protected_button_background_color = (1, 0, 0, .5)
+        print(self.protected_button_background_color)
+        return self.protected_button_background_color
 
     def priority_switch(self, instance, value):
         if value is True:
@@ -102,7 +123,6 @@ class MainPageLayout(BoxLayout):
             print("Priority off!")
 
     def save_task(self):
-        #initialize()
         task = str(self.todo_text_input.text)
         protected = bool(self.protected)
         print(protected)
