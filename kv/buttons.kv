@@ -9,6 +9,9 @@
 
 <SaveButton>:
     font_size: 32
+    size_hint: None, None
+    size: 6 * dp(48), dp(48)
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     text: "Save"
 
 <ProtectedButton>:
@@ -17,9 +20,3 @@
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     font_size: 32
 
-<TimeButton>:
-    text: "Time picker"
-    size_hint: None, None
-    size: 3 * dp(48), dp(48)
-    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    opposite_colors: True

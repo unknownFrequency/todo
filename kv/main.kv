@@ -45,10 +45,6 @@
     orientation: "vertical"
 
     BoxLayout:
-        SaveButton:
-            on_release: root.save_task()
-
-    BoxLayout:
         size_hint: (1,4)
 
         Label:
@@ -88,29 +84,20 @@
 
     BoxLayout:
         orientation: "horizontal"
-        size_hint_x: .25
 
-        Slider:
+        MDLabel:
+            text: "Priority"
+            font_size: 36
+
+        MDSlider:
             id: priority_id
             min: 1
             max: 10
-            value: 0
+            value: 1
             step: 1
 
-
-    BoxLayout:
-        orientation: "horizontal"
-        size_hint_x: .25
-
-        Label:
+        MDLabel:
             text: str(priority_id.value)
-
-    BoxLayout:
-        orientation: "horizontal"
-        size_hint_x: .25
-
-        Label:
-            text: "On / Off"
 
     BoxLayout:
         orientation: "horizontal"
@@ -127,14 +114,14 @@
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         BoxLayout:
             orientation: 'vertical'
-            # size_hint: (None, None)
+
             MDRaisedButton:
-                text: "Open time picker"
+                text: "Timepicker"
                 size_hint: None, None
-                size: 3 * dp(48), dp(48)
+                size: 6 * dp(48), dp(48)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                opposite_colors: True
                 on_release: root.show_time_picker()
+
             MDLabel:
                 id: time_picker_label
                 theme_text_color: 'Primary'
@@ -142,4 +129,14 @@
                 size: dp(48)*3, dp(48)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
+
+    BoxLayout:
+        MDRaisedButton:
+            background_color: (0,1,0,0)
+            font_size: 32
+            size_hint: None, None
+            size: '5000000000px', '50dp'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            text: "Save"
+            on_release: root.save_task()
 
