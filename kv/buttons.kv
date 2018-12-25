@@ -20,3 +20,17 @@
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     font_size: 32
 
+<TimeButton>:
+    text: "Time Picker"
+    size_hint_y: None
+    size_hint_x: 5 * dp(48)
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    font_size: 32
+
+<CategoriesDropdown>:
+    text: "Category"
+    size_hint_y: None
+    size_hint_x: 5 * dp(48)
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    font_size: 32
+    on_release: MDDropdownMenu(items=app.category_items, width_mult=4).open(self)

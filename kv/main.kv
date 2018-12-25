@@ -83,51 +83,33 @@
                 font_size: 32
 
     BoxLayout:
-        orientation: "horizontal"
+        orientation: "vertical"
 
-        MDLabel:
-            text: "Priority"
-            font_size: 36
-
-        MDSlider:
-            id: priority_id
-            min: 1
-            max: 10
-            value: 1
-            step: 1
-
-        MDLabel:
-            text: str(priority_id.value)
-
-    BoxLayout:
-        orientation: "horizontal"
-        size_hint_x: .25
-
-        Switch:
-            id: priority_switch_id
-            on_active: root.priority_switch(self, self.active)
-
-    BoxLayout:
-        spacing: dp(40)
-        orientation: 'vertical'
-        size_hint_x: None
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         BoxLayout:
-            orientation: 'vertical'
-
-            MDRaisedButton:
-                text: "Timepicker"
-                size_hint: None, None
-                size: 6 * dp(48), dp(48)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_release: root.show_time_picker()
+            orientation: "horizontal"
 
             MDLabel:
-                id: time_picker_label
-                theme_text_color: 'Primary'
-                size_hint: None, None
-                size: dp(48)*3, dp(48)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                text: "Priority"
+                font_size: 36
+
+            MDSlider:
+                id: priority_id
+                min: 1
+                max: 10
+                value: 1
+                step: 1
+
+            MDLabel:
+                text: str(priority_id.value)
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        TimeButton:
+            on_release: root.show_time_picker()
+
+        CategoriesDropdown:
+            on_release: root.set_category()
 
 
     BoxLayout:
@@ -135,7 +117,6 @@
             background_color: (0,1,0,0)
             font_size: 32
             size_hint: None, None
-            size: '5000000000px', '50dp'
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             text: "Save"
             on_release: root.save_task()

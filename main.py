@@ -75,6 +75,8 @@ class ProtectedButton(Button):
 class TimeButton(Button):
     pass
 
+class CategoriesDropdown(Button):
+    pass
 
 class MainPageLayout(BoxLayout):
     todo_text_input = ObjectProperty()
@@ -86,6 +88,9 @@ class MainPageLayout(BoxLayout):
     protected_button_background_color = (1, 0, 0, .5)
     previous_time = False
     time_deadline = datetime.now()
+
+    def set_category(self):
+        pass
 
     def get_todos(self):
         cur.execute("SELECT * FROM todo WHERE done=0")
@@ -184,6 +189,18 @@ class MainPageLayout(BoxLayout):
 
 class TodoApp(App):
     theme_cls = ThemeManager()
+    category_items = [
+        {'viewclass': 'MDMenuItem',
+         'text': 'Phone'},
+        {'viewclass': 'MDMenuItem',
+         'text': 'Shopping list'},
+        {'viewclass': 'MDMenuItem',
+         'text': 'Work'},
+        {'viewclass': 'MDMenuItem',
+         'text': 'Websites'},
+        {'viewclass': 'MDMenuItem',
+         'text': 'Phone'},
+    ]
     initialize()
 
     def build(self):
